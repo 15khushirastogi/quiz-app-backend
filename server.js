@@ -4,13 +4,8 @@ const axios = require('axios');
 
 const app = express();
 
-// Fix CORS - Allow your frontend
-app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://quiz-app-frontend-mu-indol.vercel.app'
-  ]
-}));
+// Allow ALL origins temporarily to fix CORS
+app.use(cors());
 
 app.use(express.json());
 
