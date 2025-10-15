@@ -4,8 +4,13 @@ const axios = require('axios');
 
 const app = express();
 
-// Allow ALL origins temporarily to fix CORS
-app.use(cors());
+// CRITICAL: Allow ALL origins
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: false
+}));
 
 app.use(express.json());
 
@@ -33,12 +38,19 @@ app.get('/api/questions', async (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'Server is running', timestamp: new Date() });
+  res.json({ 
+    status: 'Server is running', 
+    timestamp: new Date(),
+    cors: 'enabled'
+  });
 });
 
 // Root
 app.get('/', (req, res) => {
-  res.json({ message: 'Quiz API Server is running' });
+  res.json({ 
+    message: 'Quiz API Server is running',
+    endpoints: ['/api/questions', '/api/health']
+  });
 });
 
 module.exports = app;
